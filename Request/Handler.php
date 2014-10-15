@@ -71,11 +71,16 @@ class Handler
         $response->headers->set('Content-Type', $request->headers->get('Accept'));
 
         try {
-            $object = $this->serializer->deserialize(
-                $request->getContent(),
-                $class,
-                $format
-            );
+            $object = null;
+            $content = $request->getContent();
+
+            if (!empty($content)) {
+                $object = $this->serializer->deserialize(
+                    $content,
+                    $class,
+                    $format
+                );
+            }
 
             $data = $this->envelopeFactory->create(
                 $callback($manager, $object)

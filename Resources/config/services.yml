@@ -68,3 +68,10 @@ services:
             - @doctrine
         tags:
             - { name: jms_serializer.subscribing_handler }
+
+    lemon_rest.serializer.html_serialization_visitor:
+        class: Lemon\RestBundle\Serializer\HtmlSerializationVisitor
+        arguments:
+            - @jms_serializer.naming_strategy
+        tags:
+            - { name: jms_serializer.serialization_visitor , format: html }
