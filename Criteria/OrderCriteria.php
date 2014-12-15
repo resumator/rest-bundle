@@ -32,12 +32,4 @@ class OrderCriteria implements CriteriaInterface
     {
         return $qb->orderBy("{$alias}.{$this->field}", $this->direction);
     }
-
-    /**
-     * @inheritdoc
-     */
-    public function isCollectionFilter()
-    {
-        return false;
-    }
 }

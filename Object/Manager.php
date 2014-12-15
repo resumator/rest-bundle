@@ -2,6 +2,7 @@
 namespace Lemon\RestBundle\Object;
 
 use Doctrine\Bundle\DoctrineBundle\Registry as Doctrine;
+use Lemon\RestBundle\Criteria\CollectionFilterCriteriaInterface;
 use Lemon\RestBundle\Criteria\CriteriaInterface;
 use Lemon\RestBundle\Event\ObjectEvent;
 use Lemon\RestBundle\Event\PostSearchEvent;
@@ -74,7 +75,7 @@ class Manager implements ManagerInterface
 
         /** @var CriteriaInterface $criterion */
         foreach ($criteria as $criterion) {
-            if ($criterion->isCollectionFilter()) {
+            if ($criteria instanceof CollectionFilterCriteriaInterface) {
                 $criterion->asDoctrine($qb, 'o');
             } else {
                 $nonFilterCriteria[] = $criterion;

@@ -43,7 +43,13 @@ class Configuration implements ConfigurationInterface
                 ->end()
                 ->arrayNode('criteria_parsers')
                     ->prototype('scalar')->end()
-                    ->defaultValue(array('@lemon_rest.criteria.parser.order', '@lemon_rest.criteria.parser.slice'))
+                    ->defaultValue(
+                        array(
+                            '@lemon_rest.criteria.parser.equals',
+                            '@lemon_rest.criteria.parser.order',
+                            '@lemon_rest.criteria.parser.slice'
+                        )
+                    )
                 ->end()
             ->end()
 

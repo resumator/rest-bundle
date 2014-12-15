@@ -5,6 +5,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use JMS\Serializer\Annotation as Serializer;
+use Lemon\RestBundle\Annotation\Filterable;
 use Lemon\RestBundle\Annotation\Sortable;
 
 /**
@@ -23,6 +24,7 @@ class Person
     /**
      * @ORM\Column(name="name", type="string", length=255, nullable=false)
      * @Assert\NotBlank()
+     * @Filterable()
      * @Sortable()
      */
     public $name;

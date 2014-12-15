@@ -3,7 +3,7 @@ namespace Lemon\RestBundle\Criteria;
 
 use Doctrine\ORM\QueryBuilder;
 
-class EqualsCriteria implements CriteriaInterface
+class EqualsCriteria implements CriteriaInterface, CollectionFilterCriteriaInterface
 {
     /**
      * @var string
@@ -30,14 +30,8 @@ class EqualsCriteria implements CriteriaInterface
      */
     public function asDoctrine(QueryBuilder $qb, $alias)
     {
-        return $qb->andWhere($qb->expr()->eq("{$alias}.{$this->property}", $this->value));
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function isCollectionFilter()
-    {
-        return true;
+        return $qb
+            ->andWhere($qb->expr()->eq("{$alias}.{$this->property}", ":{$this->property}"))
+            ->setParameter(":{$this->property}", $this->value);
     }
 }

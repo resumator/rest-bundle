@@ -25,12 +25,4 @@ class LimitCriteria implements CriteriaInterface
     {
         return $qb->setMaxResults($this->limit);
     }
-
-    /**
-     * @inheritdoc
-     */
-    public function isCollectionFilter()
-    {
-        return false;
-    }
 }

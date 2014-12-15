@@ -11,9 +11,4 @@ interface CriteriaInterface
      * @return QueryBuilder
      */
     public function asDoctrine(QueryBuilder $qb, $alias);
-
-    /**
-     * @return boolean
-     */
-    public function isCollectionFilter();
 }

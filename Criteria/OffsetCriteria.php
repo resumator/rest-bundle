@@ -25,12 +25,4 @@ class OffsetCriteria implements CriteriaInterface
     {
         return $qb->setFirstResult($this->offset);
     }
-
-    /**
-     * @inheritdoc
-     */
-    public function isCollectionFilter()
-    {
-        return false;
-    }
 }
