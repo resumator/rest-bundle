@@ -27,8 +27,9 @@ class CriteriaFactory
 
         /** @var CriteriaParserInterface $parser */
         foreach ($this->criteriaParsers as $parser) {
-            $criteria += $parser->parse($query, $resource);
+            $criteria  = array_merge($criteria, $parser->parse($query, $resource));
         }
+
         return $criteria;
     }
 }

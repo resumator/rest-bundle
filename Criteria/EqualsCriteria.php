@@ -28,8 +28,16 @@ class EqualsCriteria implements CriteriaInterface
     /**
      * @inheritdoc
      */
-    public function toDoctrineQueryBuilder(QueryBuilder $qb)
+    public function asDoctrine(QueryBuilder $qb, $alias)
     {
-        return $qb->andWhere($qb->expr()->eq($this->property, $this->value));
+        return $qb->andWhere($qb->expr()->eq("{$alias}.{$this->property}", $this->value));
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function isCollectionFilter()
+    {
+        return true;
     }
 }

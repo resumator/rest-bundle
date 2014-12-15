@@ -14,21 +14,39 @@ class SliceCriteriaParser extends AnnotationCriteriaParser implements CriteriaPa
     protected $offsetParamName = '_offset';
 
     /**
+     * @var integer
+     */
+    protected $defaultLimit = 25;
+
+    /**
+     * @var integer
+     */
+    protected $defaultOffset = 0;
+
+    /**
      * @inheritdoc
      */
     public function parse(array $query, $resource)
     {
         $criteria = array();
 
+        $limit = $this->defaultLimit;
+
         if (array_key_exists($this->limitParamName, $query) &&
             is_int($query[$this->limitParamName])) {
-            $criteria[] = new LimitCriteria((int)$query[$this->limitParamName]);
+            $limit = (int)$query[$this->limitParamName];
         }
+
+        $criteria[] = new LimitCriteria($limit);
+
+        $offset = $this->defaultOffset;
 
         if (array_key_exists($this->offsetParamName, $query) &&
             is_int($query[$this->offsetParamName])) {
-            $criteria[] = new OffsetCriteria((int)$query[$this->offsetParamName]);
+            $offset = (int)$query[$this->offsetParamName];
         }
+
+        $criteria[] = new OffsetCriteria($offset);
 
         return $criteria;
     }

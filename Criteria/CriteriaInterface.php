@@ -7,7 +7,13 @@ interface CriteriaInterface
 {
     /**
      * @param QueryBuilder $qb
+     * @param string $alias
      * @return QueryBuilder
      */
-    public function toDoctrineQueryBuilder(QueryBuilder $qb);
+    public function asDoctrine(QueryBuilder $qb, $alias);
+
+    /**
+     * @return boolean
+     */
+    public function isCollectionFilter();
 }

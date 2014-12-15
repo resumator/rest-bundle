@@ -1,7 +1,6 @@
 <?php
 namespace Lemon\RestBundle\Criteria;
 
-use Doctrine\Common\Annotations\AnnotationReader;
 use Lemon\RestBundle\Object\Registry;
 use Symfony\Component\Validator\Validator\RecursiveValidator;
 
@@ -20,19 +19,17 @@ class EqualsCriteriaParser extends AnnotationCriteriaParser implements CriteriaP
     private $objectRegistry;
 
     /**
-     * @param AnnotationReader $annotationReader
      * @param RecursiveValidator $validator
      * @param Registry $objectRegistry
      */
     public function __construct(
-        AnnotationReader $annotationReader,
         RecursiveValidator $validator,
         Registry $objectRegistry)
     {
         $this->validator = $validator;
         $this->objectRegistry = $objectRegistry;
 
-        parent::__construct($annotationReader);
+        parent::__construct();
     }
 
     /**

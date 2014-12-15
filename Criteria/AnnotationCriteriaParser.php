@@ -15,12 +15,9 @@ abstract class AnnotationCriteriaParser
      */
     private $annotationReader;
 
-    /**
-     * @param AnnotationReader $annotationReader
-     */
-    public function __construct(AnnotationReader $annotationReader)
+    public function __construct()
     {
-        $this->annotationReader = $annotationReader;
+        $this->annotationReader = new AnnotationReader();
     }
 
     /**
@@ -36,7 +33,11 @@ abstract class AnnotationCriteriaParser
         $annotations = array();
 
         foreach ($properties as $property) {
-            $annotations[$property->getName()] = $this->annotationReader->getPropertyAnnotations($property, $this->annotationClass);
+            $annotation = $this->annotationReader->getPropertyAnnotation($property, $this->annotationClass);
+
+            if ($annotation) {
+                $annotations[$property->getName()] = $annotation;
+            }
         }
 
         return $annotations;

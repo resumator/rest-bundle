@@ -28,16 +28,16 @@ class OrderCriteria implements CriteriaInterface
     /**
      * @inheritdoc
      */
-    public function toDoctrineQueryBuilder(QueryBuilder $qb)
+    public function asDoctrine(QueryBuilder $qb, $alias)
     {
-        return $qb->orderBy($this->field, $this->direction);
+        return $qb->orderBy("{$alias}.{$this->field}", $this->direction);
     }
-}
 
-class OrderDirection extends \SplEnum
-{
-    const __default = self::Ascending;
-
-    const Ascending = 'ASC';
-    const Descending = 'DESC';
+    /**
+     * @inheritdoc
+     */
+    public function isCollectionFilter()
+    {
+        return false;
+    }
 }

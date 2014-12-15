@@ -9,10 +9,10 @@ interface ManagerInterface
     public function getClass();
 
     /**
-     * @param Criteria $criteria
+     * @param array $criteria
      * @return \Lemon\RestBundle\Model\SearchResults
      */
-    public function search(Criteria $criteria);
+    public function search(array $criteria);
 
     /**
      * @param object $object

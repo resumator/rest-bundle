@@ -20,9 +20,9 @@ class Extension extends BaseExtension
         $config = $this->processConfiguration($configuration, $configs);
 
         $container->setParameter('lemon_rest_object_envelope_class', $config['envelope']);
-        $container->setParameter('lemon_rest_object_criteria_class', $config['criteria']);
         $container->setParameter('lemon_rest_mappings', $config['mappings']);
         $container->setParameter('lemon_rest_formats', $config['formats']);
+        $container->setParameter('lemon_rest_criteria_parsers', $config['criteria_parsers']);
 
         // Force pretty print for JMS on, no one likes their JSON ugly
         if (defined('JSON_PRETTY_PRINT')) {

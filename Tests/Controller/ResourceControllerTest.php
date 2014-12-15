@@ -67,7 +67,7 @@ class ResourceControllerTest extends WebTestCase
 
     public function tearDown()
     {
-        $this->doctrine->getConnection()->rollback();
+        //$this->doctrine->getConnection()->rollback();
     }
 
     /**
@@ -118,9 +118,9 @@ class ResourceControllerTest extends WebTestCase
         $this->em->clear();
 
         $parameters = array(
-            DefaultCriteria::OFFSET => 1,
-            DefaultCriteria::LIMIT => 3,
-            DefaultCriteria::ORDER_BY => 'name'
+            '_offset' => 1,
+            '_limit' => 3,
+            '_orderBy' => 'name'
         );
 
         $request = $this->makeRequest('GET', '/person', null, $parameters);

@@ -21,8 +21,16 @@ class OffsetCriteria implements CriteriaInterface
     /**
      * @inheritdoc
      */
-    public function toDoctrineQueryBuilder(QueryBuilder $qb)
+    public function asDoctrine(QueryBuilder $qb, $alias)
     {
         return $qb->setFirstResult($this->offset);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function isCollectionFilter()
+    {
+        return false;
     }
 }

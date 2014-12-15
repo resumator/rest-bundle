@@ -21,8 +21,16 @@ class LimitCriteria implements CriteriaInterface
     /**
      * @inheritdoc
      */
-    public function toDoctrineQueryBuilder(QueryBuilder $qb)
+    public function asDoctrine(QueryBuilder $qb, $alias)
     {
         return $qb->setMaxResults($this->limit);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function isCollectionFilter()
+    {
+        return false;
     }
 }

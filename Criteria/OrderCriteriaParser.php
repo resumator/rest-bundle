@@ -1,7 +1,6 @@
 <?php
 namespace Lemon\RestBundle\Criteria;
 
-use Doctrine\Common\Annotations\AnnotationReader;
 use Lemon\RestBundle\Object\Registry;
 
 class OrderCriteriaParser extends AnnotationCriteriaParser implements CriteriaParserInterface
@@ -14,16 +13,13 @@ class OrderCriteriaParser extends AnnotationCriteriaParser implements CriteriaPa
     private $objectRegistry;
 
     /**
-     * @param AnnotationReader $annotationReader
      * @param Registry $objectRegistry
      */
-    public function __construct(
-        AnnotationReader $annotationReader,
-        Registry $objectRegistry)
+    public function __construct(Registry $objectRegistry)
     {
         $this->objectRegistry = $objectRegistry;
 
-        parent::__construct($annotationReader);
+        parent::__construct();
     }
 
     /**
