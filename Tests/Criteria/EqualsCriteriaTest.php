@@ -2,7 +2,6 @@
 
 namespace Lemon\RestBundle\Tests\Criteria;
 
-use Doctrine\DBAL\Query\Expression\ExpressionBuilder;
 use Lemon\RestBundle\Criteria\EqualsCriteria;
 
 class EqualsCriteriaTest extends \PHPUnit_Framework_TestCase
@@ -14,32 +13,7 @@ class EqualsCriteriaTest extends \PHPUnit_Framework_TestCase
     {
         $criteria = new EqualsCriteria('favoriteColor', 'blue');
 
-        /** @var \Doctrine\DBAL\Connection $connection */
-        $connection = $this
-            ->getMockBuilder('Doctrine\DBAL\Connection')
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $eb = new ExpressionBuilder($connection);
-
-        /** @var \Doctrine\ORM\QueryBuilder $qb */
-        $qb = $this
-            ->getMockBuilder('Doctrine\ORM\QueryBuilder')
-            ->setConstructorArgs(
-                array(
-                    $this
-                        ->getMockBuilder('Doctrine\ORM\EntityManager')
-                        ->disableOriginalConstructor()
-                        ->getMock()
-                )
-            )
-            ->setMethods(['expr'])
-            ->getMock();
-
-        $qb
-            ->expects($this->any())
-            ->method('expr')
-            ->will($this->returnValue($eb));
+        $qb = CriteriaQueryBuilderFactory::build($this);
 
         $qb->select('p')->from('Lemon\RestBundle\Tests\Fixtures\Person', 'p');
 
