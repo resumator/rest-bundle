@@ -37,14 +37,8 @@ class EqualsCriteriaParserTest extends \PHPUnit_Framework_TestCase
 
         $criteria = $ecp->parse(array('name' => 'John Doe'), 'person');
 
-        $this->assertSame(1, count($criteria));
+        $this->assertCount(1, $criteria);
         $this->assertInstanceOf('Lemon\RestBundle\Criteria\EqualsCriteria', $criteria[0]);
-
-        /** @var \Lemon\RestBundle\Criteria\EqualsCriteria $criterion */
-        $criterion = $criteria[0];
-
-        $this->assertSame('name', $criterion->getProperty());
-        $this->assertSame('John Doe', $criterion->getValue());
     }
 
     /**
@@ -56,6 +50,6 @@ class EqualsCriteriaParserTest extends \PHPUnit_Framework_TestCase
 
         $criteria = $ecp->parse(array('name' => 'This is a string that is greater than 20 characters.'), 'person');
 
-        $this->assertSame(0, count($criteria));
+        $this->assertCount(0, $criteria);
     }
 }

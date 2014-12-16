@@ -1,7 +1,7 @@
 <?php
 namespace Lemon\RestBundle\Criteria;
 
-class SliceCriteriaParser extends AnnotationCriteriaParser implements CriteriaParserInterface
+class SliceCriteriaParser implements CriteriaParserInterface
 {
     /**
      * @var string

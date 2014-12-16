@@ -3,7 +3,6 @@
 namespace Lemon\RestBundle\Tests\Criteria;
 
 use Lemon\RestBundle\Criteria\OrderCriteriaParser;
-use Lemon\RestBundle\Criteria\OrderDirection;
 use Lemon\RestBundle\Object\Registry;
 
 class OrderCriteriaParserTest extends \PHPUnit_Framework_TestCase
@@ -28,14 +27,8 @@ class OrderCriteriaParserTest extends \PHPUnit_Framework_TestCase
 
         $criteria = $ocp->parse(array('_orderBy' => 'name', '_orderDir' => 'ASC'), 'person');
 
-        $this->assertSame(1, count($criteria));
+        $this->assertCount(1, $criteria);
         $this->assertInstanceOf('Lemon\RestBundle\Criteria\OrderCriteria', $criteria[0]);
-
-        /** @var \Lemon\RestBundle\Criteria\OrderCriteria $criterion */
-        $criterion = $criteria[0];
-
-        $this->assertSame('name', $criterion->getField());
-        $this->assertTrue(OrderDirection::Ascending == $criterion->getDirection());
     }
 
     /**
@@ -47,6 +40,6 @@ class OrderCriteriaParserTest extends \PHPUnit_Framework_TestCase
 
         $criteria = $ocp->parse(array('_orderBy' => 'favoriteColor', '_orderDir' => 'DESC'), 'person');
 
-        $this->assertSame(0, count($criteria));
+        $this->assertCount(0, $criteria);
     }
 }
