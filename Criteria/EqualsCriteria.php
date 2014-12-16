@@ -11,18 +11,34 @@ class EqualsCriteria implements CriteriaInterface, CollectionFilterCriteriaInter
     private $property;
 
     /**
-     * @var string
+     * @var mixed
      */
     private $value;
 
     /**
      * @param string $property
-     * @param string $value
+     * @param mixed $value
      */
     public function __construct($property, $value)
     {
         $this->property = $property;
         $this->value = $value;
+    }
+
+    /**
+     * @return string
+     */
+    public function getProperty()
+    {
+        return $this->property;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getValue()
+    {
+        return $this->value;
     }
 
     /**
