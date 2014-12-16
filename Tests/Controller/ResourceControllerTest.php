@@ -67,7 +67,7 @@ class ResourceControllerTest extends WebTestCase
 
     public function tearDown()
     {
-        //$this->doctrine->getConnection()->rollback();
+        $this->doctrine->getConnection()->rollback();
     }
 
     /**
