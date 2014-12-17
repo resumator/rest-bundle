@@ -17,7 +17,7 @@ class RegisterCriteriaParsersPass implements CompilerPassInterface
 
         foreach ($criteriaParsers as $criteriaParser) {
             if (strpos($criteriaParser, '@') !== 0) {
-                throw new \InvalidArgumentException("The parameter lemon_rest.criteria_parsers' must be an array of services");
+                throw new \InvalidArgumentException("The parameter 'lemon_rest.criteria_parsers' must be an array of services");
             } else if (!$container->hasDefinition($serviceName = ltrim($criteriaParser, '@'))) {
                 throw new \InvalidArgumentException(sprintf("Service '%s' was not found", $criteriaParser));
             }
