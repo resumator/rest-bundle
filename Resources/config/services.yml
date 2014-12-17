@@ -81,10 +81,10 @@ services:
     lemon_rest.object_repository:
         class: Lemon\RestBundle\Object\Repository\EventAwareRepository
         arguments:
-            - @lemon_rest.object_repository.doctrine
+            - @lemon_rest.object_repository.base
             - @lemon_rest.event_dispatcher
 
-    lemon_rest.object_repository.doctrine:
+    lemon_rest.object_repository.base:
         class: Lemon\RestBundle\Object\Repository\DoctrineRepository
         arguments:
             - @doctrine
