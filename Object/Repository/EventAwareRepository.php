@@ -5,6 +5,7 @@ use Lemon\RestBundle\Event\ObjectEvent;
 use Lemon\RestBundle\Event\PostSearchEvent;
 use Lemon\RestBundle\Event\PreSearchEvent;
 use Lemon\RestBundle\Event\RestEvents;
+use Lemon\RestBundle\Object\IdHelper;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 
 class EventAwareRepository implements RepositoryInterface
@@ -104,13 +105,14 @@ class EventAwareRepository implements RepositoryInterface
      */
     public function update($object)
     {
-        // TODO: How can we get the original object into the event?
+        // TODO: Is there a better way to get the original object?
+        $original = $this->retrieve(IdHelper::getId($object));
 
-        $this->eventDispatcher->dispatch(RestEvents::PRE_UPDATE, new ObjectEvent($object/*, $original*/));
+        $this->eventDispatcher->dispatch(RestEvents::PRE_UPDATE, new ObjectEvent($object, $original));
 
         $this->repository->update($object);
 
-        $this->eventDispatcher->dispatch(RestEvents::POST_UPDATE, new ObjectEvent($object/*, $original*/));
+        $this->eventDispatcher->dispatch(RestEvents::POST_UPDATE, new ObjectEvent($object, $original));
 
         return $object;
     }

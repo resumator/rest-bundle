@@ -134,9 +134,6 @@ class DoctrineRepository implements RepositoryInterface
     {
         $em = $this->getManager();
 
-        // TODO: We need to move this to the EventAwareRepository
-        // $original = $this->retrieve(IdHelper::getId($object));
-
         $object = $em->merge($object);
 
         $em->persist($object);
