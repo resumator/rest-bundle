@@ -3,27 +3,17 @@
 namespace Lemon\RestBundle\Tests\Criteria;
 
 use Lemon\RestBundle\Criteria\OrderCriteriaParser;
-use Lemon\RestBundle\Object\Registry;
 
 class OrderCriteriaParserTest extends \PHPUnit_Framework_TestCase
 {
-    /**
-     * @var Registry
-     */
-    private $objectRegistry;
-
-    public function setUp()
-    {
-        $this->objectRegistry = new Registry();
-        $this->objectRegistry->addClass('person', 'Lemon\RestBundle\Tests\Fixtures\Person');
-    }
-
     /**
      * @test
      */
     public function parseTest()
     {
-        $ocp = new OrderCriteriaParser($this->objectRegistry);
+        $ocp = new OrderCriteriaParser();
+
+        $ocp->setResourceClass('Lemon\RestBundle\Tests\Fixtures\Person');
 
         $criteria = $ocp->parse(array('_orderBy' => 'name', '_orderDir' => 'ASC'), 'person');
 
@@ -36,7 +26,9 @@ class OrderCriteriaParserTest extends \PHPUnit_Framework_TestCase
      */
     public function parseValidationFailedTest()
     {
-        $ocp = new OrderCriteriaParser($this->objectRegistry);
+        $ocp = new OrderCriteriaParser();
+
+        $ocp->setResourceClass('Lemon\RestBundle\Tests\Fixtures\Person');
 
         $criteria = $ocp->parse(array('_orderBy' => 'favoriteColor', '_orderDir' => 'DESC'), 'person');
 

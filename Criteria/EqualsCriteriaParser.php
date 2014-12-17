@@ -1,10 +1,9 @@
 <?php
 namespace Lemon\RestBundle\Criteria;
 
-use Lemon\RestBundle\Object\Registry;
 use Symfony\Component\Validator\Validator\RecursiveValidator;
 
-class EqualsCriteriaParser extends AnnotationCriteriaParser implements CriteriaParserInterface
+class EqualsCriteriaParser extends AnnotationCriteriaParser implements CriteriaParserInterface, ResourceClassAwareInterface
 {
     protected $annotationClass = 'Lemon\RestBundle\Annotation\Filterable';
 
@@ -14,22 +13,26 @@ class EqualsCriteriaParser extends AnnotationCriteriaParser implements CriteriaP
     private $validator;
 
     /**
-     * @var Registry
+     * @var string
      */
-    private $objectRegistry;
+    private $resourceClass;
 
     /**
      * @param RecursiveValidator $validator
-     * @param Registry $objectRegistry
      */
-    public function __construct(
-        RecursiveValidator $validator,
-        Registry $objectRegistry)
+    public function __construct(RecursiveValidator $validator)
     {
         $this->validator = $validator;
-        $this->objectRegistry = $objectRegistry;
 
         parent::__construct();
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function setResourceClass($resourceClass)
+    {
+        $this->resourceClass = $resourceClass;
     }
 
     /**
@@ -39,14 +42,12 @@ class EqualsCriteriaParser extends AnnotationCriteriaParser implements CriteriaP
     {
         $criteria = array();
 
-        $resourceClass = $this->objectRegistry->getClass($resource);
-
-        $annotations = $this->getAnnotations($resourceClass);
+        $annotations = $this->getAnnotations($this->resourceClass);
 
         foreach (array_keys($annotations) as $property) {
             if (array_key_exists($property, $query) &&
                 is_scalar($query[$property])) {
-                $violations = $this->validator->validatePropertyValue($resourceClass, $property, $query[$property]);
+                $violations = $this->validator->validatePropertyValue($this->resourceClass, $property, $query[$property]);
 
                 if (count($violations) === 0) {
                     $criteria[] = new EqualsCriteria($property, $query[$property]);

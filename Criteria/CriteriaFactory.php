@@ -1,15 +1,23 @@
 <?php
 namespace Lemon\RestBundle\Criteria;
 
+use Lemon\RestBundle\Object\Registry;
+
 class CriteriaFactory
 {
+    /**
+     * @var Registry
+     */
+    private $registry;
+
     /**
      * @var array
      */
     private $criteriaParsers;
 
-    public function __construct()
+    public function __construct(Registry $registry)
     {
+        $this->registry = $registry;
         $this->criteriaParsers = array();
     }
 
@@ -38,8 +46,12 @@ class CriteriaFactory
     {
         $criteria = array();
 
-        /** @var CriteriaParserInterface $parser */
+        /** @var CriteriaParserInterface|ResourceClassAwareInterface $parser */
         foreach ($this->getParsers() as $parser) {
+            if ($parser instanceof ResourceClassAwareInterface) {
+                $parser->setResourceClass($this->registry->getClass($resource));
+            }
+
             $criteria = array_merge($criteria, $parser->parse($query, $resource));
         }
 

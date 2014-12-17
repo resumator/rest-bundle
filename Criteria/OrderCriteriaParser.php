@@ -1,26 +1,14 @@
 <?php
 namespace Lemon\RestBundle\Criteria;
 
-use Lemon\RestBundle\Object\Registry;
-
-class OrderCriteriaParser extends AnnotationCriteriaParser implements CriteriaParserInterface
+class OrderCriteriaParser extends AnnotationCriteriaParser implements CriteriaParserInterface, ResourceClassAwareInterface
 {
     protected $annotationClass = 'Lemon\RestBundle\Annotation\Sortable';
 
     /**
-     * @var Registry
+     * @var string
      */
-    private $objectRegistry;
-
-    /**
-     * @param Registry $objectRegistry
-     */
-    public function __construct(Registry $objectRegistry)
-    {
-        $this->objectRegistry = $objectRegistry;
-
-        parent::__construct();
-    }
+    private $resourceClass;
 
     /**
      * @var string
@@ -35,11 +23,19 @@ class OrderCriteriaParser extends AnnotationCriteriaParser implements CriteriaPa
     /**
      * @inheritdoc
      */
+    public function setResourceClass($resourceClass)
+    {
+        $this->resourceClass = $resourceClass;
+    }
+
+    /**
+     * @inheritdoc
+     */
     public function parse(array $query, $resource)
     {
         $criteria = array();
 
-        $annotations = $this->getAnnotations($this->objectRegistry->getClass($resource));
+        $annotations = $this->getAnnotations($this->resourceClass);
 
         if (array_key_exists($this->orderFieldParamName, $query) &&
             array_key_exists($query[$this->orderFieldParamName], $annotations)) {
