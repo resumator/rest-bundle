@@ -24,7 +24,7 @@ abstract class AnnotationCriteriaParser
      * @param string $resourceClass
      * @return array
      */
-    public function getAnnotations($resourceClass)
+    protected function getAnnotations($resourceClass)
     {
         $klass = new \ReflectionClass($resourceClass);
 
@@ -47,7 +47,7 @@ abstract class AnnotationCriteriaParser
      * @param string $resourceClass
      * @return array
      */
-    public function getAnnotatedProperties($resourceClass)
+    protected function getAnnotatedProperties($resourceClass)
     {
         return array_keys($this->getAnnotations($resourceClass));
     }
