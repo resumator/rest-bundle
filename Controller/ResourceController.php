@@ -53,7 +53,7 @@ class ResourceController
     {
         $response = $this->response;
 
-        $criteria = $this->criteriaFactory->build($request->query->all(), $resource);
+        $criteria = $this->criteriaFactory->create($request->query->all(), $resource);
 
         return $this->handler->handle(
             $request,

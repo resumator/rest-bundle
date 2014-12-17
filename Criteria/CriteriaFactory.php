@@ -34,7 +34,7 @@ class CriteriaFactory
      * @param string $resource
      * @return array
      */
-    public function build(array $query, $resource)
+    public function create(array $query, $resource)
     {
         $criteria = array();
 
