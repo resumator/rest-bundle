@@ -24,4 +24,15 @@ class EqualsCriteriaTest extends \PHPUnit_Framework_TestCase
         $this->assertSame('favoriteColor', $qb->getParameters()->get(0)->getName());
         $this->assertSame('blue', $qb->getParameters()->get(0)->getValue());
     }
+
+    /**
+     * @test
+     */
+    public function getterTest()
+    {
+        $criteria = new EqualsCriteria('favoriteColor', 'blue');
+
+        $this->assertEquals('favoriteColor', $criteria->getProperty());
+        $this->assertEquals('blue', $criteria->getValue());
+    }
 }

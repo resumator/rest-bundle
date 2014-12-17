@@ -21,4 +21,14 @@ class LimitCriteriaTest extends \PHPUnit_Framework_TestCase
 
         $this->assertSame(999, $qb->getMaxResults());
     }
+
+    /**
+     * @test
+     */
+    public function getterTest()
+    {
+        $criteria = new LimitCriteria(999);
+
+        $this->assertEquals(999, $criteria->getLimit());
+    }
 }

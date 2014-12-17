@@ -26,6 +26,22 @@ class OrderCriteria implements CriteriaInterface
     }
 
     /**
+     * @return string
+     */
+    public function getField()
+    {
+        return $this->field;
+    }
+
+    /**
+     * @return OrderDirection
+     */
+    public function getDirection()
+    {
+        return $this->direction;
+    }
+
+    /**
      * @inheritdoc
      */
     public function asDoctrine(QueryBuilder $qb, $alias)

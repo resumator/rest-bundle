@@ -21,4 +21,14 @@ class OffsetCriteriaTest extends \PHPUnit_Framework_TestCase
 
         $this->assertSame(1234, $qb->getFirstResult());
     }
+
+    /**
+     * @test
+     */
+    public function getterTest()
+    {
+        $criteria = new OffsetCriteria(1234);
+
+        $this->assertEquals(1234, $criteria->getOffset());
+    }
 }

@@ -19,6 +19,14 @@ class LimitCriteria implements CriteriaInterface
     }
 
     /**
+     * @return integer
+     */
+    public function getLimit()
+    {
+        return $this->limit;
+    }
+
+    /**
      * @inheritdoc
      */
     public function asDoctrine(QueryBuilder $qb, $alias)

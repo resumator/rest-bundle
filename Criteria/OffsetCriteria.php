@@ -19,6 +19,14 @@ class OffsetCriteria implements CriteriaInterface
     }
 
     /**
+     * @return integer
+     */
+    public function getOffset()
+    {
+        return $this->offset;
+    }
+
+    /**
      * @inheritdoc
      */
     public function asDoctrine(QueryBuilder $qb, $alias)

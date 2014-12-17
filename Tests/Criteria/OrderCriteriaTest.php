@@ -22,4 +22,15 @@ class OrderCriteriaTest extends \PHPUnit_Framework_TestCase
 
         $this->assertSame('SELECT p FROM Lemon\RestBundle\Tests\Fixtures\Person p ORDER BY p.favoriteColor ASC', $qb->getDQL());
     }
+
+    /**
+     * @test
+     */
+    public function getterTest()
+    {
+        $criteria = new OrderCriteria('favoriteColor', new OrderDirection());
+
+        $this->assertEquals('favoriteColor', $criteria->getField());
+        $this->assertTrue(OrderDirection::Ascending == $criteria->getDirection());
+    }
 }

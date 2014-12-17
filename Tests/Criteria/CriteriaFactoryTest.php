@@ -35,7 +35,7 @@ class CriteriaFactoryTest extends \PHPUnit_Framework_TestCase
      */
     public function buildTest()
     {
-        $criteria = $this->criteriaFactory->build(array('_limit' => 5, '_offset' => 5), 'person');
+        $criteria = $this->criteriaFactory->create(array('_limit' => 5, '_offset' => 5), 'person');
 
         $this->assertCount(2, $criteria);
         $this->assertInstanceOf('Lemon\RestBundle\Criteria\CriteriaInterface', $criteria[0]);

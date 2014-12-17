@@ -26,6 +26,22 @@ class EqualsCriteria implements CriteriaInterface, CollectionFilterCriteriaInter
     }
 
     /**
+     * @return string
+     */
+    public function getProperty()
+    {
+        return $this->property;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getValue()
+    {
+        return $this->value;
+    }
+
+    /**
      * @inheritdoc
      */
     public function asDoctrine(QueryBuilder $qb, $alias)
