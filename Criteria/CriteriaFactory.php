@@ -1,6 +1,8 @@
 <?php
 namespace Lemon\RestBundle\Criteria;
 
+use Lemon\RestBundle\Criteria\Parser\CriteriaParserInterface;
+use Lemon\RestBundle\Criteria\Parser\ResourceClassAwareInterface;
 use Lemon\RestBundle\Object\Registry;
 
 class CriteriaFactory

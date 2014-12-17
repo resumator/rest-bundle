@@ -2,7 +2,7 @@
 
 namespace Lemon\RestBundle\Tests\Criteria;
 
-use Lemon\RestBundle\Criteria\OrderCriteriaParser;
+use Lemon\RestBundle\Criteria\Parser\OrderCriteriaParser;
 
 class OrderCriteriaParserTest extends \PHPUnit_Framework_TestCase
 {

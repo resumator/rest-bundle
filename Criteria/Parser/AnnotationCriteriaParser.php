@@ -1,5 +1,5 @@
 <?php
-namespace Lemon\RestBundle\Criteria;
+namespace Lemon\RestBundle\Criteria\Parser;
 
 use Doctrine\Common\Annotations\AnnotationReader;
 

@@ -1,7 +1,5 @@
 <?php
-namespace Lemon\RestBundle\Criteria;
-
-use Symfony\Component\HttpFoundation\Request;
+namespace Lemon\RestBundle\Criteria\Parser;
 
 interface CriteriaParserInterface
 {

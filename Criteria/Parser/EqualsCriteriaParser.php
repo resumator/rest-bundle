@@ -1,6 +1,7 @@
 <?php
-namespace Lemon\RestBundle\Criteria;
+namespace Lemon\RestBundle\Criteria\Parser;
 
+use Lemon\RestBundle\Criteria\EqualsCriteria;
 use Symfony\Component\Validator\Validator\RecursiveValidator;
 
 class EqualsCriteriaParser extends AnnotationCriteriaParser implements CriteriaParserInterface, ResourceClassAwareInterface

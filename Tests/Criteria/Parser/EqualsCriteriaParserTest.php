@@ -1,8 +1,8 @@
 <?php
 
-namespace Lemon\RestBundle\Tests\Criteria;
+namespace Lemon\RestBundle\Tests\Criteria\Parser;
 
-use Lemon\RestBundle\Criteria\EqualsCriteriaParser;
+use Lemon\RestBundle\Criteria\Parser\EqualsCriteriaParser;
 use Symfony\Component\Validator\ValidatorBuilder;
 
 class EqualsCriteriaParserTest extends \PHPUnit_Framework_TestCase

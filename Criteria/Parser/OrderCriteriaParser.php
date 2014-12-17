@@ -1,5 +1,8 @@
 <?php
-namespace Lemon\RestBundle\Criteria;
+namespace Lemon\RestBundle\Criteria\Parser;
+
+use Lemon\RestBundle\Criteria\OrderCriteria;
+use Lemon\RestBundle\Criteria\OrderDirection;
 
 class OrderCriteriaParser extends AnnotationCriteriaParser implements CriteriaParserInterface, ResourceClassAwareInterface
 {

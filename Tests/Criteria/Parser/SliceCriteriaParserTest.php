@@ -2,7 +2,7 @@
 
 namespace Lemon\RestBundle\Tests\Criteria;
 
-use Lemon\RestBundle\Criteria\SliceCriteriaParser;
+use Lemon\RestBundle\Criteria\Parser\SliceCriteriaParser;
 
 class SliceCriteriaParserTest extends \PHPUnit_Framework_TestCase
 {
