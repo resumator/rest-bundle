@@ -3,8 +3,10 @@
 namespace Lemon\RestBundle\Tests\Object\Repository;
 
 use Lemon\RestBundle\Object\Repository\DoctrineRepository;
+use Lemon\RestBundle\Object\Repository\EventAwareRepository;
+use Symfony\Component\EventDispatcher\EventDispatcher;
 
-class DoctrineRepositoryTest extends \PHPUnit_Framework_TestCase
+class EventAwareRepositoryTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @test
@@ -18,11 +20,16 @@ class DoctrineRepositoryTest extends \PHPUnit_Framework_TestCase
             ->getMock();
 
         $dr = new DoctrineRepository($doctrine);
+        $ed = new EventDispatcher();
+
+        $ear = new EventAwareRepository($dr, $ed);
 
         $class = 'foo';
 
-        $dr->setClass($class);
+        $ear->setClass($class);
 
-        $this->assertEquals($class, $dr->getClass());
+        $this->assertEquals($class, $ear->getClass());
+        $this->assertEquals($dr, $ear->getRepository());
+        $this->assertEquals($ed, $ear->getEventDispatcher());
     }
 }
