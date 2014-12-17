@@ -29,20 +29,19 @@ services:
 
     lemon_rest.criteria.factory:
         class: Lemon\RestBundle\Criteria\CriteriaFactory
+        arguments:
+            - @lemon_rest.object_registry
 
     lemon_rest.criteria.parser.equals:
-        class: Lemon\RestBundle\Criteria\EqualsCriteriaParser
+        class: Lemon\RestBundle\Criteria\Parser\EqualsCriteriaParser
         arguments:
             - @validator
-            - @lemon_rest.object_registry
 
     lemon_rest.criteria.parser.order:
-        class: Lemon\RestBundle\Criteria\OrderCriteriaParser
-        arguments:
-            - @lemon_rest.object_registry
+        class: Lemon\RestBundle\Criteria\Parser\OrderCriteriaParser
 
     lemon_rest.criteria.parser.slice:
-        class: Lemon\RestBundle\Criteria\SliceCriteriaParser
+        class: Lemon\RestBundle\Criteria\Parser\SliceCriteriaParser
         arguments:
             - @lemon_rest.object_registry
 

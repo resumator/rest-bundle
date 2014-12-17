@@ -2,7 +2,7 @@
 
 namespace Lemon\RestBundle\Tests\Criteria;
 
-use Lemon\RestBundle\Criteria\SliceCriteriaParser;
+use Lemon\RestBundle\Criteria\Parser\SliceCriteriaParser;
 
 class SliceCriteriaParserTest extends \PHPUnit_Framework_TestCase
 {
@@ -13,7 +13,7 @@ class SliceCriteriaParserTest extends \PHPUnit_Framework_TestCase
     {
         $scp = new SliceCriteriaParser();
 
-        $criteria = $scp->parse(array('_limit' => 5, '_offset' => 5), 'person');
+        $criteria = $scp->parse(array('_limit' => 5, '_offset' => 5));
 
         $this->assertCount(2, $criteria);
         $this->assertInstanceOf('Lemon\RestBundle\Criteria\LimitCriteria', $criteria[0]);

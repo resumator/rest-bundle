@@ -1,5 +1,8 @@
 <?php
-namespace Lemon\RestBundle\Criteria;
+namespace Lemon\RestBundle\Criteria\Parser;
+
+use Lemon\RestBundle\Criteria\LimitCriteria;
+use Lemon\RestBundle\Criteria\OffsetCriteria;
 
 class SliceCriteriaParser implements CriteriaParserInterface
 {
@@ -26,7 +29,7 @@ class SliceCriteriaParser implements CriteriaParserInterface
     /**
      * @inheritdoc
      */
-    public function parse(array $query, $resource)
+    public function parse(array $query)
     {
         $criteria = array();
 

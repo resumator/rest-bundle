@@ -3,7 +3,8 @@
 namespace Lemon\RestBundle\Tests\Criteria;
 
 use Lemon\RestBundle\Criteria\CriteriaFactory;
-use Lemon\RestBundle\Criteria\SliceCriteriaParser;
+use Lemon\RestBundle\Criteria\Parser\SliceCriteriaParser;
+use Lemon\RestBundle\Object\Registry;
 
 class CriteriaFactoryTest extends \PHPUnit_Framework_TestCase
 {
@@ -14,7 +15,10 @@ class CriteriaFactoryTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->criteriaFactory = new CriteriaFactory();
+        $registry = new Registry();
+        $registry->addClass('person', 'Lemon\RestBundle\Tests\Fixtures\Person');
+
+        $this->criteriaFactory = new CriteriaFactory($registry);
 
         $this->criteriaFactory->addParser(new SliceCriteriaParser());
     }
@@ -27,7 +31,7 @@ class CriteriaFactoryTest extends \PHPUnit_Framework_TestCase
         $parsers = $this->criteriaFactory->getParsers();
 
         $this->assertCount(1, $parsers);
-        $this->assertInstanceOf('Lemon\RestBundle\Criteria\SliceCriteriaParser', $parsers[0]);
+        $this->assertInstanceOf('Lemon\RestBundle\Criteria\Parser\SliceCriteriaParser', $parsers[0]);
     }
 
     /**

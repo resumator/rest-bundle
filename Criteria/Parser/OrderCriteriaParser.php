@@ -1,26 +1,17 @@
 <?php
-namespace Lemon\RestBundle\Criteria;
+namespace Lemon\RestBundle\Criteria\Parser;
 
-use Lemon\RestBundle\Object\Registry;
+use Lemon\RestBundle\Criteria\OrderCriteria;
+use Lemon\RestBundle\Criteria\OrderDirection;
 
-class OrderCriteriaParser extends AnnotationCriteriaParser implements CriteriaParserInterface
+class OrderCriteriaParser extends AnnotationCriteriaParser implements CriteriaParserInterface, ResourceClassAwareInterface
 {
     protected $annotationClass = 'Lemon\RestBundle\Annotation\Sortable';
 
     /**
-     * @var Registry
+     * @var string
      */
-    private $objectRegistry;
-
-    /**
-     * @param Registry $objectRegistry
-     */
-    public function __construct(Registry $objectRegistry)
-    {
-        $this->objectRegistry = $objectRegistry;
-
-        parent::__construct();
-    }
+    private $resourceClass;
 
     /**
      * @var string
@@ -35,14 +26,22 @@ class OrderCriteriaParser extends AnnotationCriteriaParser implements CriteriaPa
     /**
      * @inheritdoc
      */
-    public function parse(array $query, $resource)
+    public function setResourceClass($resourceClass)
+    {
+        $this->resourceClass = $resourceClass;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function parse(array $query)
     {
         $criteria = array();
 
-        $annotations = $this->getAnnotations($this->objectRegistry->getClass($resource));
+        $properties = $this->getSortableProperties();
 
         if (array_key_exists($this->orderFieldParamName, $query) &&
-            array_key_exists($query[$this->orderFieldParamName], $annotations)) {
+            in_array($query[$this->orderFieldParamName], $properties)) {
             $orderDirection = new OrderDirection();
 
             if (array_key_exists($this->orderDirectionParamName, $query) &&
@@ -54,5 +53,13 @@ class OrderCriteriaParser extends AnnotationCriteriaParser implements CriteriaPa
         }
 
         return $criteria;
+    }
+
+    /**
+     * @return array
+     */
+    protected function getSortableProperties()
+    {
+        return $this->getAnnotatedProperties($this->resourceClass);
     }
 }

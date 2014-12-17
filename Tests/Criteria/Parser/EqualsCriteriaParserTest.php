@@ -1,9 +1,8 @@
 <?php
 
-namespace Lemon\RestBundle\Tests\Criteria;
+namespace Lemon\RestBundle\Tests\Criteria\Parser;
 
-use Lemon\RestBundle\Criteria\EqualsCriteriaParser;
-use Lemon\RestBundle\Object\Registry;
+use Lemon\RestBundle\Criteria\Parser\EqualsCriteriaParser;
 use Symfony\Component\Validator\ValidatorBuilder;
 
 class EqualsCriteriaParserTest extends \PHPUnit_Framework_TestCase
@@ -23,9 +22,6 @@ class EqualsCriteriaParserTest extends \PHPUnit_Framework_TestCase
         $vb = new ValidatorBuilder();
         $vb->enableAnnotationMapping();
         $this->validator = $vb->getValidator();
-
-        $this->objectRegistry = new Registry();
-        $this->objectRegistry->addClass('person', 'Lemon\RestBundle\Tests\Fixtures\Person');
     }
 
     /**
@@ -35,7 +31,9 @@ class EqualsCriteriaParserTest extends \PHPUnit_Framework_TestCase
     {
         $ecp = new EqualsCriteriaParser($this->validator, $this->objectRegistry);
 
-        $criteria = $ecp->parse(array('name' => 'John Doe'), 'person');
+        $ecp->setResourceClass('Lemon\RestBundle\Tests\Fixtures\Person');
+
+        $criteria = $ecp->parse(array('name' => 'John Doe'));
 
         $this->assertCount(1, $criteria);
         $this->assertInstanceOf('Lemon\RestBundle\Criteria\EqualsCriteria', $criteria[0]);
@@ -48,7 +46,9 @@ class EqualsCriteriaParserTest extends \PHPUnit_Framework_TestCase
     {
         $ecp = new EqualsCriteriaParser($this->validator, $this->objectRegistry);
 
-        $criteria = $ecp->parse(array('name' => 'This is a string that is greater than 20 characters.'), 'person');
+        $ecp->setResourceClass('Lemon\RestBundle\Tests\Fixtures\Person');
+
+        $criteria = $ecp->parse(array('name' => 'This is a string that is greater than 20 characters.'));
 
         $this->assertCount(0, $criteria);
     }

@@ -1,5 +1,5 @@
 <?php
-namespace Lemon\RestBundle\Criteria;
+namespace Lemon\RestBundle\Criteria\Parser;
 
 use Doctrine\Common\Annotations\AnnotationReader;
 
@@ -24,7 +24,7 @@ abstract class AnnotationCriteriaParser
      * @param string $resourceClass
      * @return array
      */
-    public function getAnnotations($resourceClass)
+    protected function getAnnotations($resourceClass)
     {
         $klass = new \ReflectionClass($resourceClass);
 
@@ -41,5 +41,14 @@ abstract class AnnotationCriteriaParser
         }
 
         return $annotations;
+    }
+
+    /**
+     * @param string $resourceClass
+     * @return array
+     */
+    protected function getAnnotatedProperties($resourceClass)
+    {
+        return array_keys($this->getAnnotations($resourceClass));
     }
 }
