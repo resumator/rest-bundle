@@ -42,4 +42,13 @@ abstract class AnnotationCriteriaParser
 
         return $annotations;
     }
+
+    /**
+     * @param string $resourceClass
+     * @return array
+     */
+    public function getAnnotatedProperties($resourceClass)
+    {
+        return array_keys($this->getAnnotations($resourceClass));
+    }
 }

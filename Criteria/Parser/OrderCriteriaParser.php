@@ -38,10 +38,10 @@ class OrderCriteriaParser extends AnnotationCriteriaParser implements CriteriaPa
     {
         $criteria = array();
 
-        $annotations = $this->getAnnotations($this->resourceClass);
+        $properties = $this->getSortableProperties();
 
         if (array_key_exists($this->orderFieldParamName, $query) &&
-            array_key_exists($query[$this->orderFieldParamName], $annotations)) {
+            in_array($query[$this->orderFieldParamName], $properties)) {
             $orderDirection = new OrderDirection();
 
             if (array_key_exists($this->orderDirectionParamName, $query) &&
@@ -53,5 +53,13 @@ class OrderCriteriaParser extends AnnotationCriteriaParser implements CriteriaPa
         }
 
         return $criteria;
+    }
+
+    /**
+     * @return array
+     */
+    protected function getSortableProperties()
+    {
+        return $this->getAnnotatedProperties($this->resourceClass);
     }
 }

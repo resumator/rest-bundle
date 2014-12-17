@@ -43,9 +43,9 @@ class EqualsCriteriaParser extends AnnotationCriteriaParser implements CriteriaP
     {
         $criteria = array();
 
-        $annotations = $this->getAnnotations($this->resourceClass);
+        $properties = $this->getFilterableProperties();
 
-        foreach (array_keys($annotations) as $property) {
+        foreach ($properties as $property) {
             if (array_key_exists($property, $query) &&
                 is_scalar($query[$property])) {
                 $violations = $this->validator->validatePropertyValue($this->resourceClass, $property, $query[$property]);
@@ -57,5 +57,13 @@ class EqualsCriteriaParser extends AnnotationCriteriaParser implements CriteriaP
         }
 
         return $criteria;
+    }
+
+    /**
+     * @return array
+     */
+    protected function getFilterableProperties()
+    {
+        return $this->getAnnotatedProperties($this->resourceClass);
     }
 }
