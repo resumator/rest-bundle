@@ -29,7 +29,7 @@ class SliceCriteriaParser implements CriteriaParserInterface
     /**
      * @inheritdoc
      */
-    public function parse(array $query, $resource)
+    public function parse(array $query)
     {
         $criteria = array();
 

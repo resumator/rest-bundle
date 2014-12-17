@@ -34,7 +34,7 @@ class OrderCriteriaParser extends AnnotationCriteriaParser implements CriteriaPa
     /**
      * @inheritdoc
      */
-    public function parse(array $query, $resource)
+    public function parse(array $query)
     {
         $criteria = array();
 

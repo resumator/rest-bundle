@@ -39,7 +39,7 @@ class EqualsCriteriaParser extends AnnotationCriteriaParser implements CriteriaP
     /**
      * @inheritdoc
      */
-    public function parse(array $query, $resource)
+    public function parse(array $query)
     {
         $criteria = array();
 

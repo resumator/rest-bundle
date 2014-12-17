@@ -15,7 +15,7 @@ class OrderCriteriaParserTest extends \PHPUnit_Framework_TestCase
 
         $ocp->setResourceClass('Lemon\RestBundle\Tests\Fixtures\Person');
 
-        $criteria = $ocp->parse(array('_orderBy' => 'name', '_orderDir' => 'ASC'), 'person');
+        $criteria = $ocp->parse(array('_orderBy' => 'name', '_orderDir' => 'ASC'));
 
         $this->assertCount(1, $criteria);
         $this->assertInstanceOf('Lemon\RestBundle\Criteria\OrderCriteria', $criteria[0]);
@@ -30,7 +30,7 @@ class OrderCriteriaParserTest extends \PHPUnit_Framework_TestCase
 
         $ocp->setResourceClass('Lemon\RestBundle\Tests\Fixtures\Person');
 
-        $criteria = $ocp->parse(array('_orderBy' => 'favoriteColor', '_orderDir' => 'DESC'), 'person');
+        $criteria = $ocp->parse(array('_orderBy' => 'favoriteColor', '_orderDir' => 'DESC'));
 
         $this->assertCount(0, $criteria);
     }

@@ -54,7 +54,7 @@ class CriteriaFactory
                 $parser->setResourceClass($this->registry->getClass($resource));
             }
 
-            $criteria = array_merge($criteria, $parser->parse($query, $resource));
+            $criteria = array_merge($criteria, $parser->parse($query));
         }
 
         return $criteria;
