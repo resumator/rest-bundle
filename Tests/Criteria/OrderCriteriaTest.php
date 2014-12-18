@@ -10,7 +10,7 @@ class OrderCriteriaTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function asDoctrineTest()
+    public function asQueryBuilderTest()
     {
         $criteria = new OrderCriteria('favoriteColor', new OrderDirection());
 
@@ -18,7 +18,7 @@ class OrderCriteriaTest extends \PHPUnit_Framework_TestCase
 
         $qb->select('p')->from('Lemon\RestBundle\Tests\Fixtures\Person', 'p');
 
-        $criteria->asDoctrine($qb, 'p');
+        $criteria->asQueryBuilder($qb, 'p');
 
         $this->assertSame('SELECT p FROM Lemon\RestBundle\Tests\Fixtures\Person p ORDER BY p.favoriteColor ASC', $qb->getDQL());
     }

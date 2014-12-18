@@ -9,7 +9,7 @@ class OffsetCriteriaTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function asDoctrineTest()
+    public function asQueryBuilderTest()
     {
         $criteria = new OffsetCriteria(1234);
 
@@ -17,7 +17,7 @@ class OffsetCriteriaTest extends \PHPUnit_Framework_TestCase
 
         $qb->select('p')->from('Lemon\RestBundle\Tests\Fixtures\Person', 'p');
 
-        $criteria->asDoctrine($qb, 'p');
+        $criteria->asQueryBuilder($qb, 'p');
 
         $this->assertSame(1234, $qb->getFirstResult());
     }

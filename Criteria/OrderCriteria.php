@@ -3,7 +3,7 @@ namespace Lemon\RestBundle\Criteria;
 
 use Doctrine\ORM\QueryBuilder;
 
-class OrderCriteria implements CriteriaInterface
+class OrderCriteria implements DoctrineCriteriaInterface
 {
     /**
      * @var string
@@ -44,7 +44,7 @@ class OrderCriteria implements CriteriaInterface
     /**
      * @inheritdoc
      */
-    public function asDoctrine(QueryBuilder $qb, $alias)
+    public function asQueryBuilder(QueryBuilder $qb, $alias)
     {
         return $qb->orderBy("{$alias}.{$this->field}", $this->direction);
     }

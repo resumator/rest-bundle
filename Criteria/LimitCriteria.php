@@ -3,7 +3,7 @@ namespace Lemon\RestBundle\Criteria;
 
 use Doctrine\ORM\QueryBuilder;
 
-class LimitCriteria implements CriteriaInterface
+class LimitCriteria implements DoctrineCriteriaInterface
 {
     /**
      * @var integer
@@ -29,7 +29,7 @@ class LimitCriteria implements CriteriaInterface
     /**
      * @inheritdoc
      */
-    public function asDoctrine(QueryBuilder $qb, $alias)
+    public function asQueryBuilder(QueryBuilder $qb, $alias)
     {
         return $qb->setMaxResults($this->limit);
     }
