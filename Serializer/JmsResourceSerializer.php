@@ -8,12 +8,12 @@ use Symfony\Component\HttpFoundation\Request;
 class JmsResourceSerializer implements ResourceSerializerInterface
 {
     /**
-     * ConstructorFactory
+     * @var ConstructorFactory
      */
     private $constructorFactory;
 
     /**
-     * FormatNegotiatorInterface
+     * @var FormatNegotiatorInterface
      */
     private $formatNegotiator;
 
