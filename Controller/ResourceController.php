@@ -3,7 +3,7 @@ namespace Lemon\RestBundle\Controller;
 
 use Lemon\RestBundle\Criteria\CriteriaFactory;
 use Lemon\RestBundle\Object\IdHelper;
-use Lemon\RestBundle\Object\ManagerInterface;
+use Lemon\RestBundle\Object\Repository\RepositoryInterface;
 use Lemon\RestBundle\Request\Handler;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -59,8 +59,8 @@ class ResourceController
             $request,
             $this->response,
             $resource,
-            function (ManagerInterface $manager) use ($response, $criteria) {
-                $results = $manager->search($criteria);
+            function (RepositoryInterface $repository) use ($response, $criteria) {
+                $results = $repository->search($criteria);
 
                 $response->headers->set('X-Total-Count', $results->getTotal());
 
@@ -81,8 +81,8 @@ class ResourceController
             $request,
             $this->response,
             $resource,
-            function (ManagerInterface $manager) use ($id) {
-                return $manager->retrieve($id);
+            function (RepositoryInterface $repository) use ($id) {
+                return $repository->retrieve($id);
             }
         );
     }
@@ -101,8 +101,8 @@ class ResourceController
             $request,
             $this->response,
             $resource,
-            function (ManagerInterface $manager, $object) use ($response, $resource, $router) {
-                $manager->create($object);
+            function (RepositoryInterface $repository, $object) use ($response, $resource, $router) {
+                $repository->create($object);
 
                 $response->setStatusCode(201);
                 $response->headers->set('Location', $router->generate(
@@ -131,13 +131,13 @@ class ResourceController
             $request,
             $this->response,
             $resource,
-            function (ManagerInterface $manager, $object) use ($id) {
+            function (RepositoryInterface $repository, $object) use ($id) {
                 $reflection = new \ReflectionObject($object);
                 $property = $reflection->getProperty('id');
                 $property->setAccessible(true);
                 $property->setValue($object, $id);
 
-                $manager->update($object);
+                $repository->update($object);
 
                 return $object;
             }
@@ -156,8 +156,8 @@ class ResourceController
             $request,
             $this->response,
             $resource,
-            function (ManagerInterface $manager, $object) use ($id) {
-                $manager->partialUpdate($object);
+            function (RepositoryInterface $repository, $object) use ($id) {
+                $repository->partialUpdate($object);
 
                 return $object;
             }
@@ -178,10 +178,10 @@ class ResourceController
             $request,
             $this->response,
             $resource,
-            function (ManagerInterface $manager) use ($response, $id) {
+            function (RepositoryInterface $repository) use ($response, $id) {
                 $response->setStatusCode(204);
 
-                $manager->delete($id);
+                $repository->delete($id);
             }
         );
     }

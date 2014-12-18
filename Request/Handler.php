@@ -2,29 +2,37 @@
 
 namespace Lemon\RestBundle\Request;
 
+use JMS\Serializer\SerializationContext;
+use JMS\Serializer\SerializerInterface;
+use Lemon\RestBundle\Object\Envelope\EnvelopeFactory;
 use Lemon\RestBundle\Object\Exception\InvalidException;
 use Lemon\RestBundle\Object\Exception\NotFoundException;
-use Lemon\RestBundle\Object\ManagerFactoryInterface;
-use Lemon\RestBundle\Object\Envelope\EnvelopeFactory;
+use Lemon\RestBundle\Object\Registry;
+use Lemon\RestBundle\Object\Repository\RepositoryInterface;
 use Lemon\RestBundle\Serializer\ConstructorFactory;
+use Negotiation\FormatNegotiatorInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\HttpException;
-use JMS\Serializer\SerializerInterface;
-use JMS\Serializer\SerializationContext;
-use Negotiation\FormatNegotiatorInterface;
 
 class Handler
 {
     /**
-     * @var \Lemon\RestBundle\Object\ManagerFactoryInterface
+     * @var RepositoryInterface
      */
-    protected $managerFactory;
+    protected $repository;
+
     /**
-     * @var \Lemon\RestBundle\Object\Envelope\EnvelopeFactory
+     * @var Registry
+     */
+    protected $registry;
+
+    /**
+     * @var EnvelopeFactory
      */
     protected $envelopeFactory;
+
     /**
      * @var ConstructorFactory
      */
@@ -41,20 +49,23 @@ class Handler
     protected $logger;
 
     /**
-     * @param ManagerFactoryInterface $managerFactory
+     * @param RepositoryInterface $repository
+     * @param Registry $registry
      * @param EnvelopeFactory $envelopeFactory
      * @param SerializerInterface $serializer
      * @param FormatNegotiatorInterface $negotiator
      * @param LoggerInterface $logger
      */
     public function __construct(
-        ManagerFactoryInterface $managerFactory,
+        RepositoryInterface $repository,
+        Registry $registry,
         EnvelopeFactory $envelopeFactory,
         ConstructorFactory $serializer,
         FormatNegotiatorInterface $negotiator,
         LoggerInterface $logger
     ) {
-        $this->managerFactory = $managerFactory;
+        $this->repository = $repository;
+        $this->registry = $registry;
         $this->envelopeFactory = $envelopeFactory;
         $this->serializer = $serializer;
         $this->negotiator = $negotiator;
@@ -80,19 +91,21 @@ class Handler
 
         $response->headers->set('Content-Type', $accept->getValue());
 
+        $class = $this->registry->getClass($resource);
+
         try {
-            $manager = $this->managerFactory->create($resource);
+            $this->repository->setClass($class);
 
             $object = $this->serializer->create(
                 $request->isMethod('patch') ? 'doctrine' : 'default'
             )->deserialize(
                 $request->getContent(),
-                $manager->getClass(),
+                $class,
                 $format
             );
 
             $data = $this->envelopeFactory->create(
-                $callback($manager, $object)
+                $callback($this->repository, $object)
             )->export();
         } catch (InvalidException $e) {
             $response->setStatusCode(400);
