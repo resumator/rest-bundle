@@ -20,7 +20,7 @@ services:
             - @lemon_rest.object_repository
             - @lemon_rest.object_registry
             - @lemon_rest.object_envelope_factory
-            - @lemon_rest.serializer.constructor_factory
+            - @lemon_rest.serializer
             - @lemon_rest.format_negotiator
             - @logger
 
@@ -101,6 +101,12 @@ services:
         class: Lemon\RestBundle\Object\Envelope\EnvelopeFactory
         arguments:
             - %lemon_rest_object_envelope_class%
+
+    lemon_rest.serializer:
+        class: Lemon\RestBundle\Serializer\JmsResourceSerializer
+        arguments:
+            - @lemon_rest.serializer.constructor_factory
+            - @lemon_rest.format_negotiator
 
     lemon_rest.serializer.id_collection.handler:
         class: Lemon\RestBundle\Serializer\IdCollectionHandler
