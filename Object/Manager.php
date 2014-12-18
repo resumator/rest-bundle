@@ -4,6 +4,7 @@ namespace Lemon\RestBundle\Object;
 use Doctrine\Bundle\DoctrineBundle\Registry as Doctrine;
 use Lemon\RestBundle\Criteria\CollectionFilterCriteriaInterface;
 use Lemon\RestBundle\Criteria\CriteriaInterface;
+use Lemon\RestBundle\Criteria\DoctrineCriteriaInterface;
 use Lemon\RestBundle\Event\ObjectEvent;
 use Lemon\RestBundle\Event\PostSearchEvent;
 use Lemon\RestBundle\Event\PreSearchEvent;
@@ -75,10 +76,13 @@ class Manager implements ManagerInterface
 
         /** @var CriteriaInterface $criterion */
         foreach ($criteria as $criterion) {
-            if ($criteria instanceof CollectionFilterCriteriaInterface) {
-                $criterion->asDoctrine($qb, 'o');
-            } else {
-                $nonFilterCriteria[] = $criterion;
+            if ($criterion instanceof DoctrineCriteriaInterface) {
+                /** @var DoctrineCriteriaInterface $criterion */
+                if ($criterion instanceof CollectionFilterCriteriaInterface) {
+                    $criterion->asQueryBuilder($qb, 'o');
+                } else {
+                    $nonFilterCriteria[] = $criterion;
+                }
             }
         }
 
@@ -89,7 +93,7 @@ class Manager implements ManagerInterface
         $qb->select('o');
 
         foreach ($nonFilterCriteria as $criterion) {
-            $criterion->asDoctrine($qb, 'o');
+            $criterion->asQueryBuilder($qb, 'o');
         }
 
         $query = $qb->getQuery();

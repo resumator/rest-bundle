@@ -9,7 +9,7 @@ class EqualsCriteriaTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function asDoctrineTest()
+    public function asQueryBuilderTest()
     {
         $criteria = new EqualsCriteria('favoriteColor', 'blue');
 
@@ -17,7 +17,7 @@ class EqualsCriteriaTest extends \PHPUnit_Framework_TestCase
 
         $qb->select('p')->from('Lemon\RestBundle\Tests\Fixtures\Person', 'p');
 
-        $criteria->asDoctrine($qb, 'p');
+        $criteria->asQueryBuilder($qb, 'p');
 
         $this->assertSame('SELECT p FROM Lemon\RestBundle\Tests\Fixtures\Person p WHERE p.favoriteColor = :favoriteColor', $qb->getDQL());
         $this->assertSame(1, $qb->getParameters()->count());
