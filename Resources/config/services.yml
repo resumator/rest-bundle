@@ -17,7 +17,8 @@ services:
     lemon_rest.handler:
         class: Lemon\RestBundle\Request\Handler
         arguments:
-            - @lemon_rest.object_manager_factory
+            - @lemon_rest.object_repository
+            - @lemon_rest.object_registry
             - @lemon_rest.object_envelope_factory
             - @lemon_rest.serializer.constructor_factory
             - @lemon_rest.format_negotiator
@@ -76,6 +77,17 @@ services:
         arguments:
             - @doctrine
             - @jms_serializer.metadata_factory
+
+    lemon_rest.object_repository:
+        class: Lemon\RestBundle\Object\Repository\EventAwareRepository
+        arguments:
+            - @lemon_rest.object_repository.base
+            - @lemon_rest.event_dispatcher
+
+    lemon_rest.object_repository.base:
+        class: Lemon\RestBundle\Object\Repository\DoctrineRepository
+        arguments:
+            - @doctrine
 
     lemon_rest.object_validator:
         class: Lemon\RestBundle\Object\Validator
