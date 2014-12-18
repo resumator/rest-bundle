@@ -2,6 +2,9 @@
 namespace Lemon\RestBundle\Object;
 
 use Doctrine\Bundle\DoctrineBundle\Registry as Doctrine;
+use Lemon\RestBundle\Criteria\CollectionFilterCriteriaInterface;
+use Lemon\RestBundle\Criteria\CriteriaInterface;
+use Lemon\RestBundle\Criteria\DoctrineCriteriaInterface;
 use Lemon\RestBundle\Event\ObjectEvent;
 use Lemon\RestBundle\Event\PostSearchEvent;
 use Lemon\RestBundle\Event\PreSearchEvent;
@@ -57,10 +60,10 @@ class Manager implements ManagerInterface
     }
 
     /**
-     * @param Criteria $criteria
+     * @param array $criteria
      * @return SearchResults
      */
-    public function search(Criteria $criteria)
+    public function search(array $criteria)
     {
         $this->eventDispatcher->dispatch(RestEvents::PRE_SEARCH, new PreSearchEvent($criteria));
 
@@ -69,31 +72,28 @@ class Manager implements ManagerInterface
         $qb->select($qb->expr()->count('o'))
             ->from($this->class, 'o');
 
-        $metadata = $this->getManager()->getClassMetadata($this->class);
+        $nonFilterCriteria = array();
 
-        foreach ($criteria as $key => $value) {
-            if ($metadata->hasField($key)) {
-                if ($metadata->getTypeOfField($key) == 'string') {
-                    $qb->andWhere('o.' . $key . ' LIKE :' . $key);
-                    $qb->setParameter($key, '%' . $value . '%');
+        /** @var CriteriaInterface $criterion */
+        foreach ($criteria as $criterion) {
+            if ($criterion instanceof DoctrineCriteriaInterface) {
+                /** @var DoctrineCriteriaInterface $criterion */
+                if ($criterion instanceof CollectionFilterCriteriaInterface) {
+                    $criterion->asQueryBuilder($qb, 'o');
                 } else {
-                    $qb->andWhere('o.' . $key . ' = :' . $key);
-                    $qb->setParameter($key, $value);
+                    $nonFilterCriteria[] = $criterion;
                 }
-            } // Should we throw an Exception here?
+            }
         }
+
         $query = $qb->getQuery();
 
         $total = $query->getSingleScalarResult();
 
-        $qb->select('o')
-            ->setFirstResult($criteria->getOffset())
-            ->setMaxResults($criteria->getLimit());
+        $qb->select('o');
 
-        $orderBy = $criteria->getOrderBy();
-
-        if (is_array($orderBy)) {
-            $qb->orderBy('o.' . key($orderBy), $orderBy[key($orderBy)]);
+        foreach ($nonFilterCriteria as $criterion) {
+            $criterion->asQueryBuilder($qb, 'o');
         }
 
         $query = $qb->getQuery();

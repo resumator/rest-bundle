@@ -118,9 +118,9 @@ class ResourceControllerTest extends WebTestCase
         $this->em->clear();
 
         $parameters = array(
-            DefaultCriteria::OFFSET => 1,
-            DefaultCriteria::LIMIT => 3,
-            DefaultCriteria::ORDER_BY => 'name'
+            '_offset' => 1,
+            '_limit' => 3,
+            '_orderBy' => 'name'
         );
 
         $request = $this->makeRequest('GET', '/person', null, $parameters);
@@ -134,6 +134,46 @@ class ResourceControllerTest extends WebTestCase
         $this->assertEquals($person5->id, $data[0]->id);
         $this->assertEquals($person3->id, $data[1]->id);
         $this->assertEquals($person2->id, $data[2]->id);
+    }
+
+    public function testFilteredListAction()
+    {
+        $person1 = new Person();
+        $person1->name = "Stan Lemon";
+
+        $person2 = new Person();
+        $person2->name = "Sara Lemon";
+
+        $person3 = new Person();
+        $person3->name = "Lucy Lemon";
+
+        $person4 = new Person();
+        $person4->name = "Evelyn Lemon";
+
+        $person5 = new Person();
+        $person5->name = "Henry Lemon";
+
+        $this->em->persist($person1);
+        $this->em->persist($person2);
+        $this->em->persist($person3);
+        $this->em->persist($person4);
+        $this->em->persist($person5);
+        $this->em->flush();
+        $this->em->clear();
+
+        $parameters = array(
+            'name' => 'Evelyn Lemon'
+        );
+
+        $request = $this->makeRequest('GET', '/person', null, $parameters);
+
+        /** @var \Symfony\Component\HttpFoundation\Response $response */
+        $response = $this->controller->listAction($request, 'person');
+
+        $data = json_decode($response->getContent());
+
+        $this->assertCount(1, $data);
+        $this->assertEquals($person4->id, $data[0]->id);
     }
 
     public function testGetAction()

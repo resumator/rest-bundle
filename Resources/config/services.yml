@@ -3,7 +3,7 @@ services:
         class: Lemon\RestBundle\Controller\ResourceController
         arguments:
             - @lemon_rest.handler
-            - @lemon_rest.object_criteria_factory
+            - @lemon_rest.criteria.factory
             - @router
 
     lemon_rest.index_controller:
@@ -25,6 +25,24 @@ services:
 
     lemon_rest.format_negotiator:
         class: Negotiation\FormatNegotiator
+
+    lemon_rest.criteria.factory:
+        class: Lemon\RestBundle\Criteria\CriteriaFactory
+        arguments:
+            - @lemon_rest.object_registry
+
+    lemon_rest.criteria.parser.equals:
+        class: Lemon\RestBundle\Criteria\Parser\EqualsCriteriaParser
+        arguments:
+            - @validator
+
+    lemon_rest.criteria.parser.order:
+        class: Lemon\RestBundle\Criteria\Parser\OrderCriteriaParser
+
+    lemon_rest.criteria.parser.slice:
+        class: Lemon\RestBundle\Criteria\Parser\SliceCriteriaParser
+        arguments:
+            - @lemon_rest.object_registry
 
     lemon_rest.event_dispatcher:
         class: Symfony\Component\EventDispatcher\ContainerAwareEventDispatcher
@@ -71,11 +89,6 @@ services:
         class: Lemon\RestBundle\Object\Envelope\EnvelopeFactory
         arguments:
             - %lemon_rest_object_envelope_class%
-
-    lemon_rest.object_criteria_factory:
-        class: Lemon\RestBundle\Object\Criteria\CriteriaFactory
-        arguments:
-            - %lemon_rest_object_criteria_class%
 
     lemon_rest.serializer.id_collection.handler:
         class: Lemon\RestBundle\Serializer\IdCollectionHandler

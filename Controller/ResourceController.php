@@ -1,7 +1,7 @@
 <?php
 namespace Lemon\RestBundle\Controller;
 
-use Lemon\RestBundle\Object\Criteria\CriteriaFactory;
+use Lemon\RestBundle\Criteria\CriteriaFactory;
 use Lemon\RestBundle\Object\IdHelper;
 use Lemon\RestBundle\Object\ManagerInterface;
 use Lemon\RestBundle\Request\Handler;
@@ -53,7 +53,7 @@ class ResourceController
     {
         $response = $this->response;
 
-        $criteria = $this->criteriaFactory->create($request->query->all());
+        $criteria = $this->criteriaFactory->create($request->query->all(), $resource);
 
         return $this->handler->handle(
             $request,

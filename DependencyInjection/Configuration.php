@@ -18,7 +18,7 @@ class Configuration implements ConfigurationInterface
                 ->end()
                 ->scalarNode('criteria')
                     ->defaultValue('Lemon\RestBundle\Object\Criteria\DefaultCriteria')
-                    ->end()
+                ->end()
                 ->arrayNode('mappings')
                     ->prototype('array')
                         ->children()
@@ -40,6 +40,16 @@ class Configuration implements ConfigurationInterface
                             ->end()
                         ->end()
                     ->end()
+                ->end()
+                ->arrayNode('criteria_parsers')
+                    ->prototype('scalar')->end()
+                    ->defaultValue(
+                        array(
+                            '@lemon_rest.criteria.parser.equals',
+                            '@lemon_rest.criteria.parser.order',
+                            '@lemon_rest.criteria.parser.slice'
+                        )
+                    )
                 ->end()
             ->end()
 

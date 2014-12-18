@@ -1,7 +1,6 @@
 <?php
 namespace Lemon\RestBundle\Event;
 
-use Lemon\RestBundle\Object\Criteria;
 use Symfony\Component\EventDispatcher\Event;
 
 class PreSearchEvent extends Event
@@ -9,9 +8,9 @@ class PreSearchEvent extends Event
     protected $criteria;
 
     /**
-     * @param Criteria $criteria
+     * @param array $criteria
      */
-    public function __construct(Criteria $criteria)
+    public function __construct(array $criteria)
     {
         $this->criteria = $criteria;
     }
