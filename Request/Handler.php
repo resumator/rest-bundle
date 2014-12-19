@@ -2,14 +2,12 @@
 
 namespace Lemon\RestBundle\Request;
 
-use JMS\Serializer\SerializationContext;
-use JMS\Serializer\SerializerInterface;
 use Lemon\RestBundle\Object\Envelope\EnvelopeFactory;
 use Lemon\RestBundle\Object\Exception\InvalidException;
 use Lemon\RestBundle\Object\Exception\NotFoundException;
 use Lemon\RestBundle\Object\Registry;
 use Lemon\RestBundle\Object\Repository\RepositoryInterface;
-use Lemon\RestBundle\Serializer\ConstructorFactory;
+use Lemon\RestBundle\Serializer\ResourceSerializerInterface;
 use Negotiation\FormatNegotiatorInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -34,12 +32,12 @@ class Handler
     protected $envelopeFactory;
 
     /**
-     * @var ConstructorFactory
+     * @var ResourceSerializerInterface
      */
     protected $serializer;
 
     /**
-     * @var \Negotiation\FormatNegotiatorInterface
+     * @var FormatNegotiatorInterface
      */
     protected $negotiator;
 
@@ -52,7 +50,7 @@ class Handler
      * @param RepositoryInterface $repository
      * @param Registry $registry
      * @param EnvelopeFactory $envelopeFactory
-     * @param SerializerInterface $serializer
+     * @param ResourceSerializerInterface $serializer
      * @param FormatNegotiatorInterface $negotiator
      * @param LoggerInterface $logger
      */
@@ -60,7 +58,7 @@ class Handler
         RepositoryInterface $repository,
         Registry $registry,
         EnvelopeFactory $envelopeFactory,
-        ConstructorFactory $serializer,
+        ResourceSerializerInterface $serializer,
         FormatNegotiatorInterface $negotiator,
         LoggerInterface $logger
     ) {
@@ -94,15 +92,9 @@ class Handler
         $class = $this->registry->getClass($resource);
 
         try {
-            $this->repository->setClass($class);
+            $object = $this->serializer->deserialize($request->getContent(), $class, $format, $request);
 
-            $object = $this->serializer->create(
-                $request->isMethod('patch') ? 'doctrine' : 'default'
-            )->deserialize(
-                $request->getContent(),
-                $class,
-                $format
-            );
+            $this->repository->setClass($class);
 
             $data = $this->envelopeFactory->create(
                 $callback($this->repository, $object)
@@ -136,15 +128,7 @@ class Handler
             );
         }
 
-        $context = SerializationContext::create();
-
-        if ($accept->hasParameter('version')) {
-            $context->setVersion($accept->getParameter('version'));
-        }
-
-        $output = $this->serializer->create('default')->serialize($data, $format, $context);
-
-        $response->setContent($output);
+        $response->setContent($this->serializer->serialize($data, $format, $request));
 
         return $response;
     }
