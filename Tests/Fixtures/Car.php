@@ -23,8 +23,8 @@ class Car
     public $name;
 
     /**
-     * @ORM\Column(name="year", type="string", length=255, nullable=false)
-     */
+* @ORM\Column(name="year", type="string", length=255, nullable=false)
+*/
     public $year;
 
     /**

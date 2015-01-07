@@ -32,6 +32,8 @@ class Extension extends BaseExtension
             );
         }
 
+        $container->setParameter('lemon_rest.search_adapter', $config['search_adapter']);
+
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');
     }

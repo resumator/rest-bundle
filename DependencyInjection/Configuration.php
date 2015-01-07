@@ -51,6 +51,11 @@ class Configuration implements ConfigurationInterface
                         )
                     )
                 ->end()
+                ->scalarNode('search_adapter')
+                    ->defaultNull()
+                    ->info('Service to use for searching. Must implement Lemon\RestBundle\Search\Adapter\SearchAdapterInterface.')
+                    ->example('@lemon_rest.search_adapter.solr')
+                ->end()
             ->end()
 
         ;
